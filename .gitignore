@@ -365,5 +365,8 @@ modules.xml
 temp*
 
 # End of https://www.gitignore.io/api/eclipse,node,jetbrains,clion,phpstorm,webstorm,codeblocks,windows,macos
+<<<<<<< HEAD
+=======
 
-*.pem
+src/config.json
+>>>>>>> master
