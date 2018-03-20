@@ -1,11 +1,16 @@
-const yelp = require('./index');
-const inquirer = require('inquirer');
+const
+  yelp = require('./index')
+  inquirer = require('inquirer')
 
-const search = (location, category, term) => {
-  console.log('Starting');
-  yelp.search(location, category, term, 10);
-};
+const search = (location, category, term, number) => {
+  yelp.search(location, category, term, number)
+}
+
+const reviews = (business) => {
+  console.log(business)
+}
 
 module.exports = {
   search,
-};
+  reviews
+}

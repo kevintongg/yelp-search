@@ -1,36 +1,47 @@
-const app = require('./app');
-const yargs = require('yargs');
+const
+  app = require('./app')
+  yargs = require('yargs')
 
-const flags = yargs.usage('$0: Usage <cmd> [options]')
-  .command({
-    command: 'search',
-    alias: 's',
-    desc: 'searches for businesses',
-    builder: yargs => yargs.options('l', {
-      alias: 'location',
-      describe: 'area to search',
-<<<<<<< HEAD
+  const flags = yargs.usage('$0: Usage <cmd> [options]')
+    .command({
+      command: 'search',
+      desc: 'searches for businesses',
+      builder: (yargs) => {
+        return yargs
+        .options('l', {
+          alias: 'location',
+          describe: 'area to search',
+          demandOption: true
+        }).option('c', {
+          alias: 'category',
+          describe: 'type of food'
+        }).option('t', {
+          alias: 'term',
+          describe: 'what kind of food you want to look up'
+        })
+        .option('n', {
+          alias: 'number',
+          describe: 'number of businesses to show; default is 5'
+        })
+      },
+      handler: (argv) => {
+        app.search(argv.location, argv.category, argv.term, argv.number)
+      }
     })
-      .option('c', {
-        alias: 'category',
-        describe: 'type of food',
-      })
-      .option('t', {
-        alias: 'term',
-        describe: 'what kind of food you want to look up',
-      }),
-=======
-    }).option('c', {
-      alias: 'category',
-      describe: 'type of food',
-    }).option('t', {
-      alias: 'term',
-      describe: 'what kind of food you want to look up',
-    }),
->>>>>>> master
-    handler: (argv) => {
-      app.search(argv.location, argv.category, argv.term);
-    },
-  })
-  .help('help')
-  .argv;
+    .command({
+      command: 'reviews',
+      desc: 'lists the three most recent reviews for the given business',
+      builder: (yargs) => {
+        return yargs
+        .options('b', {
+          alias: 'business',
+          describe: 'name of the business to look up reviews',
+          demandOption: true
+        })
+      },
+      handler: (argv) => {
+        app.reviews(argv.business)
+      }
+    })
+    .help('help')
+    .argv
