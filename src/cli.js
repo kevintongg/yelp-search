@@ -28,20 +28,5 @@ const
         app.search(argv.location, argv.category, argv.term, argv.number)
       }
     })
-    .command({
-      command: 'reviews',
-      desc: 'lists the three most recent reviews for the given business',
-      builder: (yargs) => {
-        return yargs
-        .options('b', {
-          alias: 'business',
-          describe: 'name of the business to look up reviews',
-          demandOption: true
-        })
-      },
-      handler: (argv) => {
-        app.reviews(argv.business)
-      }
-    })
     .help('help')
     .argv
