@@ -20,18 +20,13 @@ const getReviews = (business) => {
     choices.push({name: `${item.name}`, value: `${item.id}`, checked: false})
   })
   return inquirer.prompt([{
-    type: 'checkbox',
+    type: 'list',
     message: 'select one business to get the three most recent reviews!',
-    name: 'businesses',
+    name: 'business',
     choices: choices,
-    validate: (answer) => {
-      if (answer.length > 1) {
-        return 'choose only one business'
-      }
-      return true
-    }
-  }]).then(answers => {
-    reviews(answers.businesses[0])
+  }]).then(answer => {
+  	console.log(answer)
+    reviews(answer.business)
   })
 }
 
