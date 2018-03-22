@@ -4,7 +4,7 @@ const
 
 const fetch = (params, command) => {
 	// qs = params in python
-  console.log('Searching')
+  //console.log('Searching')
   return rp({url: `${config.url}/${command}`,
                  qs: params,
                  headers: {'Authorization': `Bearer ${config.api_key}`}})

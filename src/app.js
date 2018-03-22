@@ -8,12 +8,12 @@ const search = (location, category, term, number) => {
     let business = []
     json.businesses.forEach(item => {
       business.push({id: `${item.id}`,
-                    name: `${item.name} located at: ${item.location.address1}, ${item.location.city} ${item.location.zip_code}`})
+                    name: `${item.name}`, location: `${item.location.address1}, ${item.location.city} ${item.location.zip_code}`})
     })
     getReviews(business)
   })
 }
-
+//
 const getReviews = (business) => {
   let choices = []
   business.forEach(item => {
@@ -25,16 +25,26 @@ const getReviews = (business) => {
     name: 'business',
     choices: choices,
   }]).then(answer => {
-  	console.log(answer)
-    reviews(answer.business)
+    reviews(business, answer)
   })
 }
 
-const reviews = (id) => {
-  yelp.reviews(id).then(result => {
+const reviews = (business, answer) => {
+  let bus = ''
+  for(let i = 0; i < business.length; i++){
+    if (business[i].id == answer.business)
+      bus = business[i]
+
+  }
+  console.log('Business Name: ' + bus.name)
+  console.log('Location: ' + bus.location)
+  console.log('REVIEWS')
+  console.log('--------------------------------------------------')
+  yelp.reviews(bus.id).then(result => {
     let json = JSON.parse(result)
     json.reviews.forEach(item => {
       console.log(`${item.rating} out of 5: ${item.text}`)
+      console.log('--------------------------------------------------')
     })
   })
 }
