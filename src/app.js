@@ -2,8 +2,7 @@ const yelp = require('./index');
 const inquirer = require('inquirer');
 
 function search(location, category, term, number) {
-  console.log('start:', category)
-  if(category == true){
+  if(term == true){
     const choices = ['Resturaunt', 'Bars', 'Food', 'Delivery', 'Takeout']
     return inquirer.prompt([{
       type: 'list',
@@ -12,7 +11,7 @@ function search(location, category, term, number) {
       choices,
     }])
     .then((answer) =>{
-      category = answer.categories
+      term = answer.categories
     })
     .then(() => {
       yelp.search(location, category, term, number)
