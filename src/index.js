@@ -26,7 +26,7 @@ exports.search = (location, category, term, number = 5) => {
 };
 
 exports.reviews = (id) => {
-  params = {};
+  const params = {};
   // https://api.yelp.com/v3/businesses/{id}/reviews
   return fetch(params, `${id}/reviews`);
 };
