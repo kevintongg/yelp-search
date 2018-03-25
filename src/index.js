@@ -10,7 +10,8 @@ function fetch(params, command) {
       Authorization: `Bearer ${config.api_key}`,
     },
   })
-    .then(response => response);
+    .then(response => response)
+    .catch(error => console.error(error));
 }
 
 exports.search = (location, category, term, number = 5, radius) => {
@@ -20,7 +21,7 @@ exports.search = (location, category, term, number = 5, radius) => {
     term,
     limit: number,
     sort_by: 'rating',
-    radius
+    radius,
   };
   // https://api.yelp.com/v3/businesses/search
   return fetch(params, 'search');
@@ -30,4 +31,17 @@ exports.reviews = (id) => {
   const params = {};
   // https://api.yelp.com/v3/businesses/{id}/reviews
   return fetch(params, `${id}/reviews`);
+};
+
+exports.lookup = (name, address1, city, state, country, phone) => {
+  const params = {
+    name,
+    address1,
+    city,
+    state,
+    country,
+    phone,
+  };
+  // https://api.yelp.com/v3/businesses/matches/lookup
+  return fetch(params, 'matches/lookup');
 };

@@ -47,13 +47,22 @@ function search(location, category, term, number, radius) {
 }
 
 function getReviews(businesses) {
-  const choices = []
-  businesses.forEach((business) => {
-    choices.push({
-      name: `${business.name}, Price: ${business.price}`,
-      value: `${business.id}`
-    })
-  })
+  const choices = [];
+  businesses.forEach((item) => {
+    if (item.price !== undefined) {
+      choices.push({
+        name: `${item.name}: ${item.location}, Price: ${item.price}`,
+        value: `${item.id}`,
+        checked: false,
+      });
+    } else {
+      choices.push({
+        name: `${item.name}: ${item.location}`,
+        value: `${item.id}`,
+        checked: false
+      });
+    }
+  });
   return inquirer.prompt([{
     type: 'list',
     message: 'select one business to get the three most recent reviews!',
@@ -61,32 +70,52 @@ function getReviews(businesses) {
     choices
   }])
     .then((answer) => {
-      reviews(businesses, answer)
-    })
+      reviews(businesses, answer);
+    });
 }
 
 function reviews(businesses, answer) {
-  let business = businesses.find(business => business.id === answer.business)
-  
-  console.log(`Name: ${business.name}`)
-  console.log(`Location: ${business.location}`)
-  console.log(`Price: ${business.price}\n`)
-  console.log('Reviews:')
-  yelp.reviews(business.id).then((result) => {
-    const json = JSON.parse(result)
-    json.reviews.forEach((review) => {
-      let date = review.time_created.split('-')
-      let temp = date[2].split(' ')
-      let formatedDate = date[1] + '/' + temp[0] +'/' + date[0] 
+  const business = businesses.find(business => business.id === answer.business);
 
-      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formatedDate} `)
-      console.log(`${review.text}`)
-      console.log('--------------------------------------------------')
-    })
-  })
+  console.log(`Name: ${business.name}`);
+  console.log(`Location: ${business.location}`);
+  if (business.price !== undefined) {
+    console.log(`Price: ${business.price}\n`);
+  }
+  console.log('Reviews:');
+  yelp.reviews(business.id).then((result) => {
+    const json = JSON.parse(result);
+    json.reviews.forEach((review) => {
+      const date = review.time_created.split('-');
+      const temp = date[2].split(' ');
+      const formattedDate = date[1] + '/' + temp[0] + '/' + date[0];
+
+      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formattedDate} `);
+      console.log(`${review.text}`);
+      console.log('--------------------------------------------------');
+    });
+  });
 }
+
+function lookup(name, address1, city, state, country, phone) {
+  yelp.lookup(name, address1, city, state, country, phone)
+    .then((item) => {
+      const json = JSON.parse(item);
+      const businessList = [];
+      json.businesses.forEach((item) => {
+        businessList.push({
+          id: `${item.id}`,
+          name: `${item.name}`,
+          location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+        });
+      });
+      getReviews(businessList);
+    });
+}
+
 
 module.exports = {
   search,
   reviews,
+  lookup,
 };
