@@ -45,39 +45,38 @@ function search(location, category, term, number) {
 }
 
 function getReviews(businesses) {
-  const choices = [];
+  const choices = []
   businesses.forEach((business) => {
     choices.push({
       name: `${business.name}`,
-      value: `${business.id}`,
-      checked: false,
-    });
-  });
+      value: `${business.id}`
+    })
+  })
   return inquirer.prompt([{
     type: 'list',
     message: 'select one business to get the three most recent reviews!',
     name: 'business',
-    choices,
+    choices
   }])
     .then((answer) => {
-      reviews(businesses, answer);
-    });
+      reviews(businesses, answer)
+    })
 }
 
 function reviews(businesses, answer) {
   let business = businesses.find(business => business.id === answer.business)
   
-  console.log(`Name: ${business.name}`);
-  console.log(`Location: ${business.location}`);
-  console.log('\nReviews:');
+  console.log(`Name: ${business.name}`)
+  console.log(`Location: ${business.location}\n`)
+  console.log('Reviews:')
   yelp.reviews(business.id).then((result) => {
-    const json = JSON.parse(result);
+    const json = JSON.parse(result)
     json.reviews.forEach((review) => {
-      console.log(`${review.rating}/5`);
-      console.log(`${review.text}`);
-      console.log('--------------------------------------------------');
-    });
-  });
+      console.log(`${review.rating}/5`)
+      console.log(`${review.text}`)
+      console.log('--------------------------------------------------')
+    })
+  })
 }
 
 module.exports = {
