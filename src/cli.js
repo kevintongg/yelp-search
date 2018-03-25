@@ -25,5 +25,17 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
       app.search(argv.location, argv.category, argv.term, argv.number);
     },
   })
+  .command({
+    command: 'list',
+    desc: 'list options',
+    builder: yargs => yargs
+      .option('c', {
+        alias: 'category',
+        describe: 'list all categories'
+      }),
+    handler: (argv) => {
+      app.list();
+    }
+  })
   .help('help')
   .argv;

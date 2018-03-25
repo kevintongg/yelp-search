@@ -30,3 +30,10 @@ exports.reviews = (id) => {
   // https://api.yelp.com/v3/businesses/{id}/reviews
   return fetch(params, `${id}/reviews`);
 };
+
+exports.list = () => {
+  return rp({
+    url: 'https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json'
+  })
+  .then(response => response)
+}

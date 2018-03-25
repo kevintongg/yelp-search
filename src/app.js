@@ -84,7 +84,27 @@ function reviews(business, answer) {
   });
 }
 
+function list() {
+	yelp.list()
+	.then((result) =>{
+		const choices = []
+		let categories = JSON.parse(result)
+		categories.forEach((category) => {
+			choices.push(
+				category.alias
+			)
+		})
+		inquirer.prompt([{
+		type: 'list',
+		message: 'list of category',
+		name: 'category',
+		choices,
+		}])
+	})
+}
+
 module.exports = {
   search,
   reviews,
+  list
 };
