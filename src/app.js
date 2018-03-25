@@ -47,22 +47,20 @@ function search(location, category, term, number, radius) {
 }
 
 function getReviews(businesses) {
-  const choices = [];
+  const choices = []
   businesses.forEach((item) => {
     if (item.price !== undefined) {
       choices.push({
         name: `${item.name}: ${item.location}, Price: ${item.price}`,
-        value: `${item.id}`,
-        checked: false,
-      });
+        value: `${item.id}`
+      })
     } else {
       choices.push({
         name: `${item.name}: ${item.location}`,
-        value: `${item.id}`,
-        checked: false
-      });
+        value: `${item.id}`
+      })
     }
-  });
+  })
   return inquirer.prompt([{
     type: 'list',
     message: 'select one business to get the three most recent reviews!',
@@ -70,33 +68,33 @@ function getReviews(businesses) {
     choices
   }])
     .then((answer) => {
-      reviews(businesses, answer);
-    });
+      reviews(businesses, answer)
+    })
 }
 
 function reviews(businesses, answer) {
-  const business = businesses.find(business => business.id === answer.business);
+  const business = businesses.find(business => business.id === answer.business)
 
-  console.log(`Name: ${business.name}`);
-  console.log(`Location: ${business.location}`);
+  console.log(`Name: ${business.name}`)
+  console.log(`Location: ${business.location}`)
   if (business.price !== undefined) {
-    console.log(`Price: ${business.price}\n`);
+    console.log(`Price: ${business.price}\n`)
   } else {
-    console.log();
+    console.log()
   }
-  console.log('Reviews:');
+  console.log('Reviews:')
   yelp.reviews(business.id).then((result) => {
-    const json = JSON.parse(result);
+    const json = JSON.parse(result)
     json.reviews.forEach((review) => {
-      const date = review.time_created.split('-');
-      const temp = date[2].split(' ');
-      const formattedDate = date[1] + '/' + temp[0] + '/' + date[0];
+      const date = review.time_created.split('-')
+      const temp = date[2].split(' ')
+      const formattedDate = date[1] + '/' + temp[0] + '/' + date[0]
 
-      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formattedDate}\n`);
-      console.log(`${review.text}`);
-      console.log('--------------------------------------------------');
-    });
-  });
+      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formattedDate}\n`)
+      console.log(`${review.text}`)
+      console.log('--------------------------------------------------')
+    })
+  })
 }
 
 function lookup(name, address1, city, state, country, phone) {
