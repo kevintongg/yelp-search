@@ -3,13 +3,22 @@ const inquirer = require('inquirer');
 
 function search(location, category, term, number) {
   if (term === true) {
-    const choices = ['Resturaunt', 'Bars', 'Food', 'Delivery', 'Takeout'];
-    return inquirer.prompt([{
-      type: 'list',
-      message: 'select a CATEGORY to get the three most recent reviews!',
-      name: 'categories',
-      choices,
-    }])
+    yelp.list()
+      .then((result) =>{
+        const choices = []
+        let categories = JSON.parse(result)
+        categories.forEach((category) => {
+          choices.push(
+            category.alias
+          )
+        })
+        return inquirer.prompt([{
+        type: 'list',
+        message: 'list of category',
+        name: 'categories',
+        choices,
+        }])
+      })
       .then((answer) => {
         term = answer.categories;
       })
@@ -28,7 +37,9 @@ function search(location, category, term, number) {
             getReviews(business);
           });
       });
+
   }
+  else{
   yelp.search(location, category, term, number)
     .then((item) => {
       const json = JSON.parse(item);
@@ -42,6 +53,7 @@ function search(location, category, term, number) {
       });
       getReviews(business);
     });
+  }
 }
 
 function getReviews(business) {
