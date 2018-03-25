@@ -20,9 +20,13 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
       .option('n', {
         alias: 'number',
         describe: 'number of businesses to show; default is 5',
+      })
+      .option('r', {
+        alias: 'radius',
+        describe: 'radius around the selected location',
       }),
     handler: (argv) => {
-      app.search(argv.location, argv.category, argv.term, argv.number);
+      app.search(argv.location, argv.category, argv.term, argv.number, argv.radius);
     },
   })
   .help('help')

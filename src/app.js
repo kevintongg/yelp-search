@@ -1,7 +1,7 @@
 const yelp = require('./index');
 const inquirer = require('inquirer');
 
-function search(location, category, term, number) {
+function search(location, category, term, number, radius) {
   if (term === true) {
     const choices = ['Resturaunt', 'Bars', 'Food', 'Delivery', 'Takeout'];
     return inquirer.prompt([{
@@ -22,6 +22,7 @@ function search(location, category, term, number) {
               business.push({
                 id: `${item.id}`,
                 name: `${item.name}`,
+                price: `${item.price}`,
                 location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
               });
             });
@@ -29,7 +30,7 @@ function search(location, category, term, number) {
           });
       });
   }
-  yelp.search(location, category, term, number)
+  yelp.search(location, category, term, number, radius)
     .then((item) => {
       const json = JSON.parse(item);
       const business = [];
@@ -37,6 +38,7 @@ function search(location, category, term, number) {
         business.push({
           id: `${item.id}`,
           name: `${item.name}`,
+          price: `${item.price}`,
           location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
         });
       });
@@ -48,7 +50,7 @@ function getReviews(businesses) {
   const choices = []
   businesses.forEach((business) => {
     choices.push({
-      name: `${business.name}`,
+      name: `${business.name}, Price: ${business.price}`,
       value: `${business.id}`
     })
   })
@@ -67,12 +69,17 @@ function reviews(businesses, answer) {
   let business = businesses.find(business => business.id === answer.business)
   
   console.log(`Name: ${business.name}`)
-  console.log(`Location: ${business.location}\n`)
+  console.log(`Location: ${business.location}`)
+  console.log(`Price: ${business.price}\n`)
   console.log('Reviews:')
   yelp.reviews(business.id).then((result) => {
     const json = JSON.parse(result)
     json.reviews.forEach((review) => {
-      console.log(`${review.rating}/5`)
+      let date = review.time_created.split('-')
+      let temp = date[2].split(' ')
+      let formatedDate = date[1] + '/' + temp[0] +'/' + date[0] 
+
+      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formatedDate} `)
       console.log(`${review.text}`)
       console.log('--------------------------------------------------')
     })

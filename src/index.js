@@ -13,13 +13,14 @@ function fetch(params, command) {
     .then(response => response);
 }
 
-exports.search = (location, category, term, number = 5) => {
+exports.search = (location, category, term, number = 5, radius) => {
   const params = {
     location,
     category,
     term,
     limit: number,
     sort_by: 'rating',
+    radius
   };
   // https://api.yelp.com/v3/businesses/search
   return fetch(params, 'search');
