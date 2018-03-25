@@ -10,7 +10,8 @@ function fetch(params, command) {
       Authorization: `Bearer ${config.api_key}`,
     },
   })
-    .then(response => response);
+    .then(response => response)
+    .catch(error => console.log(error));
 }
 
 exports.search = (location, category, term, number = 5) => {
@@ -31,9 +32,8 @@ exports.reviews = (id) => {
   return fetch(params, `${id}/reviews`);
 };
 
-exports.list = () => {
-  return rp({
-    url: 'https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json'
-  })
+exports.list = () => rp({
+  url: 'https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json'
+})
   .then(response => response)
-}
+  .catch(error => console.log(error));

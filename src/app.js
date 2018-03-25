@@ -4,20 +4,18 @@ const inquirer = require('inquirer');
 function search(location, category, term, number) {
   if (term === true) {
     yelp.list()
-      .then((result) =>{
-        const choices = []
-        let categories = JSON.parse(result)
+      .then((result) => {
+        const choices = [];
+        const categories = JSON.parse(result);
         categories.forEach((category) => {
-          choices.push(
-            category.title
-          )
-        })
+          choices.push(category.title);
+        });
         return inquirer.prompt([{
-        type: 'list',
-        message: 'list of category',
-        name: 'categories',
-        choices,
-        }])
+          type: 'list',
+          message: 'list of category',
+          name: 'categories',
+          choices,
+        }]);
       })
       .then((answer) => {
         term = answer.categories;
@@ -37,22 +35,20 @@ function search(location, category, term, number) {
             getReviews(business);
           });
       });
-
-  }
-  else{
-  yelp.search(location, category, term, number)
-    .then((item) => {
-      const json = JSON.parse(item);
-      const business = [];
-      json.businesses.forEach((item) => {
-        business.push({
-          id: `${item.id}`,
-          name: `${item.name}`,
-          location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+  } else {
+    yelp.search(location, category, term, number)
+      .then((item) => {
+        const json = JSON.parse(item);
+        const business = [];
+        json.businesses.forEach((item) => {
+          business.push({
+            id: `${item.id}`,
+            name: `${item.name}`,
+            location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+          });
         });
+        getReviews(business);
       });
-      getReviews(business);
-    });
   }
 }
 
@@ -97,22 +93,20 @@ function reviews(business, answer) {
 }
 
 function list() {
-	yelp.list()
-	.then((result) =>{
-		const choices = []
-		let categories = JSON.parse(result)
-		categories.forEach((category) => {
-			choices.push(
-				category.title
-			)
-		})
-		inquirer.prompt([{
-		type: 'list',
-		message: 'list of category',
-		name: 'category',
-		choices,
-		}])
-	})
+  yelp.list()
+    .then((result) => {
+      const choices = [];
+      const categories = JSON.parse(result);
+      categories.forEach((category) => {
+        choices.push(category.title);
+      });
+      inquirer.prompt([{
+        type: 'list',
+        message: 'list of category',
+        name: 'category',
+        choices,
+      }]);
+    });
 }
 
 module.exports = {
