@@ -14,14 +14,15 @@ function fetch(params, command) {
     .catch(error => console.error(error));
 }
 
-exports.search = (location, category, term, number = 5, radius) => {
+exports.search = (location, category, term, number = 5, radius, open_now) => {
   const params = {
     location,
     category,
     term,
     limit: number,
-    sort_by: 'rating',
+    sort_by:'rating',
     radius,
+    open_now
   };
   // https://api.yelp.com/v3/businesses/search
   return fetch(params, 'search');
