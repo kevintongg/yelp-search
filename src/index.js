@@ -20,9 +20,9 @@ exports.search = (location, category, term, number = 5, radius, open_now) => {
     category,
     term,
     limit: number,
-    sort_by:'rating',
+    sort_by: 'rating',
     radius,
-    open_now
+    open_now,
   };
   // https://api.yelp.com/v3/businesses/search
   return fetch(params, 'search');
@@ -48,7 +48,7 @@ exports.lookup = (name, address1, city, state, country, phone) => {
 };
 
 exports.list = () => rp({
-  url: 'https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json'
+  url: 'https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json',
 })
   .then(response => response)
   .catch(error => console.log(error));

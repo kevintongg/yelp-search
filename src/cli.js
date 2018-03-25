@@ -25,7 +25,7 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
         alias: 'radius',
         describe: 'radius around the selected location in METERS',
       })
-      .option('o',{
+      .option('o', {
         alias: 'open_now',
         describe: 'searches for businesses that are open; default is false',
       }),
@@ -88,11 +88,11 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
     builder: yargs => yargs
       .option('c', {
         alias: 'category',
-        describe: 'list all categories'
+        describe: 'list all categories',
       }),
     handler: (argv) => {
       app.list();
-    }
+    },
   })
   .help('help')
   .argv;
