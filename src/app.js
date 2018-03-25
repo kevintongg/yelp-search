@@ -13,13 +13,20 @@ function search(location, category, term, number, radius, open_now) {
     open_now = false
   }
   if (term === true) {
-    const choices = ['Resturaunt', 'Bars', 'Food', 'Delivery', 'Takeout'];
-    return inquirer.prompt([{
-      type: 'list',
-      message: 'select a CATEGORY to get the three most recent reviews!',
-      name: 'categories',
-      choices,
-    }])
+    yelp.list()
+    .then((result) => {
+      const choices = [];
+      const categories = JSON.parse(result);
+      categories.forEach((category) => {
+        choices.push(category.title);
+      });
+      return inquirer.prompt([{
+        type: 'list',
+        message: 'list of category',
+        name: 'categories',
+        choices,
+      }])
+    })
       .then((answer) => {
         term = answer.categories;
       })
@@ -49,7 +56,7 @@ function search(location, category, term, number, radius, open_now) {
             }
           });
       });
-  }
+  }else{
   yelp.search(location, category, term, number, radius, open_now)
     .then((item) => {
       const json = JSON.parse(item);
@@ -73,6 +80,7 @@ function search(location, category, term, number, radius, open_now) {
         getReviews(business);
       }
     });
+  }
 }
 
 function getReviews(businesses) {
@@ -148,7 +156,7 @@ function list() {
       const choices = [];
       const categories = JSON.parse(result);
       categories.forEach((category) => {
-        choices.push(category.alias);
+        choices.push(category.title);
       });
       inquirer.prompt([{
         type: 'list',
