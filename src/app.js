@@ -44,12 +44,12 @@ function search(location, category, term, number) {
     });
 }
 
-function getReviews(business) {
+function getReviews(businesses) {
   const choices = [];
-  business.forEach((item) => {
+  businesses.forEach((business) => {
     choices.push({
-      name: `${item.name}`,
-      value: `${item.id}`,
+      name: `${business.name}`,
+      value: `${business.id}`,
       checked: false,
     });
   });
@@ -60,25 +60,21 @@ function getReviews(business) {
     choices,
   }])
     .then((answer) => {
-      reviews(business, answer);
+      reviews(businesses, answer);
     });
 }
 
-function reviews(business, answer) {
-  let b = '';
-  business.forEach((e, i) => {
-    if (e.id === answer.business) {
-      b = business[i];
-    }
-  });
-  console.log(`Name: ${b.name}`);
-  console.log(`Location: ${b.location}`);
+function reviews(businesses, answer) {
+  let business = businesses.find(business => business.id === answer.business)
+  
+  console.log(`Name: ${business.name}`);
+  console.log(`Location: ${business.location}`);
   console.log('\nReviews:');
-  yelp.reviews(b.id).then((result) => {
+  yelp.reviews(business.id).then((result) => {
     const json = JSON.parse(result);
-    json.reviews.forEach((business) => {
-      console.log(`${business.rating}/5`);
-      console.log(`${business.text}`);
+    json.reviews.forEach((review) => {
+      console.log(`${review.rating}/5`);
+      console.log(`${review.text}`);
       console.log('--------------------------------------------------');
     });
   });
