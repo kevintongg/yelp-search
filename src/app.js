@@ -23,6 +23,8 @@ function search(location, category, term, number, radius) {
                 id: `${item.id}`,
                 name: `${item.name}`,
                 price: `${item.price}`,
+                totalReviews: `${item.review_count}`,
+                rating: `${item.rating}`,
                 location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
               });
             });
@@ -39,6 +41,8 @@ function search(location, category, term, number, radius) {
           id: `${item.id}`,
           name: `${item.name}`,
           price: `${item.price}`,
+          totalReviews: `${item.review_count}`,
+          rating: `${item.rating}`,
           location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
         });
       });
@@ -50,7 +54,7 @@ function getReviews(businesses) {
   const choices = []
   businesses.forEach((business) => {
     choices.push({
-      name: `${business.name}, Price: ${business.price}`,
+      name: `${business.name}, Avg Rating: ${business.rating}, Price: ${business.price}`,
       value: `${business.id}`
     })
   })
@@ -70,8 +74,10 @@ function reviews(businesses, answer) {
   
   console.log(`Name: ${business.name}`)
   console.log(`Location: ${business.location}`)
+  console.log(`Average Rating: ${business.rating}`)
   console.log(`Price: ${business.price}\n`)
-  console.log('Reviews:')
+  console.log(`Total Reviews: ${business.totalReviews}`)
+  console.log('Most Recent Reviews:')
   yelp.reviews(business.id).then((result) => {
     const json = JSON.parse(result)
     json.reviews.forEach((review) => {
