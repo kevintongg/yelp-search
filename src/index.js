@@ -45,3 +45,9 @@ exports.lookup = (name, address1, city, state, country, phone) => {
   // https://api.yelp.com/v3/businesses/matches/lookup
   return fetch(params, 'matches/lookup');
 };
+
+exports.list = () => rp({
+  url: 'https://www.yelp.com/developers/documentation/v3/all_category_list/categories.json'
+})
+  .then(response => response)
+  .catch(error => console.log(error));

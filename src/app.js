@@ -115,9 +115,26 @@ function lookup(name, address1, city, state, country, phone) {
     });
 }
 
+function list() {
+  yelp.list()
+    .then((result) => {
+      const choices = [];
+      const categories = JSON.parse(result);
+      categories.forEach((category) => {
+        choices.push(category.alias);
+      });
+      inquirer.prompt([{
+        type: 'list',
+        message: 'list of category',
+        name: 'category',
+        choices,
+      }]);
+    });
+}
 
 module.exports = {
   search,
   reviews,
   lookup,
+  list,
 };

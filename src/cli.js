@@ -78,5 +78,17 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
       app.lookup(argv.name, argv.address1, argv.city, argv.state, argv.country, argv.phone);
     },
   })
+  .command({
+    command: 'list',
+    desc: 'list options',
+    builder: yargs => yargs
+      .option('c', {
+        alias: 'category',
+        describe: 'list all categories'
+      }),
+    handler: (argv) => {
+      app.list();
+    }
+  })
   .help('help')
   .argv;
