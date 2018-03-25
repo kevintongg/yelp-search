@@ -80,12 +80,12 @@ function getReviews(businesses) {
   businesses.forEach((item) => {
     if (item.price !== undefined) {
       choices.push({
-        name: `${item.name}: ${item.location}, Price: ${item.price, About ${business.distance} mile(s) away.`,
+        name: `${item.name}: ${item.location}, Price: ${item.price}, About ${item.distance} mile(s) away.`,
         value: `${item.id}`
       });
     } else {
       choices.push({
-        name: `${item.name}: ${item.location}, About ${business.distance} mile(s) away.`,
+        name: `${item.name}: ${item.location}, About ${item.distance} mile(s) away.`,
         value: `${item.id}`
       });
     }
