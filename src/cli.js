@@ -23,10 +23,14 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
       })
       .option('r', {
         alias: 'radius',
-        describe: 'radius around the selected location',
+        describe: 'radius around the selected location in METERS',
+      })
+      .option('o',{
+        alias: 'open_now',
+        describe: 'searches for businesses that are open; default is false',
       }),
     handler: (argv) => {
-      app.search(argv.location, argv.category, argv.term, argv.number, argv.radius);
+      app.search(argv.location, argv.category, argv.term, argv.number, argv.radius, argv.open_now);
     },
   })
   .help('help')

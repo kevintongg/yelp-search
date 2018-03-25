@@ -1,7 +1,17 @@
 const yelp = require('./index');
 const inquirer = require('inquirer');
 
-function search(location, category, term, number, radius) {
+function search(location, category, term, number, radius, open_now) {
+  if(open_now === 't'){
+    open_now = true
+  }else if(open_now ==='true'){
+    open_now = true
+  }
+  else if(open_now === 'f'){
+    open_now = false
+  }else{
+    open_now = false
+  }
   if (term === true) {
     const choices = ['Resturaunt', 'Bars', 'Food', 'Delivery', 'Takeout'];
     return inquirer.prompt([{
@@ -14,35 +24,54 @@ function search(location, category, term, number, radius) {
         term = answer.categories;
       })
       .then(() => {
-        yelp.search(location, category, term, number)
+        yelp.search(location, category, term, number, radius, open_now)
           .then((item) => {
+            
             const json = JSON.parse(item);
-            const business = [];
-            json.businesses.forEach((item) => {
-              business.push({
-                id: `${item.id}`,
-                name: `${item.name}`,
-                price: `${item.price}`,
-                location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+            console.log('Total searches found: ', json.total)
+            //console.log(json.total)
+            if(json.total < 1){
+              console.log('No businesses found!')
+            }
+            else{
+              const business = [];
+              json.businesses.forEach((item) => {
+                let distance_miles = Math.ceil(item.distance/1609.34)
+                business.push({
+                  id: `${item.id}`,
+                  name: `${item.name}`,
+                  price: `${item.price}`,
+                  distance:`${distance_miles}`,
+                  location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+                  });
               });
-            });
-            getReviews(business);
+              getReviews(business);
+            }
           });
       });
   }
-  yelp.search(location, category, term, number, radius)
+  yelp.search(location, category, term, number, radius, open_now)
     .then((item) => {
       const json = JSON.parse(item);
-      const business = [];
-      json.businesses.forEach((item) => {
-        business.push({
-          id: `${item.id}`,
-          name: `${item.name}`,
-          price: `${item.price}`,
-          location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+      console.log('Total searches found: ', json.total)
+      if(json.total < 1){
+        console.log('No businesses found!')
+      }
+      else{
+        const business = [];
+        json.businesses.forEach((item) => {
+          //console.log(item)
+          let distance_miles = Math.ceil(item.distance/1609.34)
+          business.push({
+            id: `${item.id}`,
+            name: `${item.name}`,
+            price: `${item.price}`,
+            distance:`${distance_miles}`,
+            location: `${item.location.address1}, ${item.location.city}, ${item.location.state} ${item.location.zip_code}`,
+          });
         });
-      });
-      getReviews(business);
+        getReviews(business);
+      }
     });
 }
 
@@ -50,7 +79,7 @@ function getReviews(businesses) {
   const choices = []
   businesses.forEach((business) => {
     choices.push({
-      name: `${business.name}, Price: ${business.price}`,
+      name: `${business.name}, Price: ${business.price}, About ${business.distance} mile(s) away.`,
       value: `${business.id}`
     })
   })
