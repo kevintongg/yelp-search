@@ -1,28 +1,47 @@
 const config = require('./config');
-const request = require('request');
+const rp = require('request-promise');
 
-const fetch = params =>
+function fetch(params, command) {
   // qs = params in python
-  request.get({
-    url: `${config.url}`,
+  return rp({
+    url: `${config.url}/${command}`,
     qs: params,
     headers: {
       Authorization: `Bearer ${config.api_key}`,
     },
-  }, (err, res, body) => {
-    res.setEncoding('utf-8');
-    // let jsonString = JSON.stringify(res.body)
-    const json = JSON.parse(res.body);
-    console.log(json.businesses);
-  });
+  })
+    .then(response => response)
+    .catch(error => console.error(error));
+}
 
-exports.search = (location, category, term, limit) => {
-  params = {
+exports.search = (location, category, term, number = 5, radius) => {
+  const params = {
     location,
     category,
     term,
-    limit,
+    limit: number,
     sort_by: 'rating',
+    radius,
   };
-  return fetch(params);
+  // https://api.yelp.com/v3/businesses/search
+  return fetch(params, 'search');
+};
+
+exports.reviews = (id) => {
+  const params = {};
+  // https://api.yelp.com/v3/businesses/{id}/reviews
+  return fetch(params, `${id}/reviews`);
+};
+
+exports.lookup = (name, address1, city, state, country, phone) => {
+  const params = {
+    name,
+    address1,
+    city,
+    state,
+    country,
+    phone,
+  };
+  // https://api.yelp.com/v3/businesses/matches/lookup
+  return fetch(params, 'matches/lookup');
 };
