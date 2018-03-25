@@ -9,7 +9,7 @@ function search(location, category, term, number) {
         let categories = JSON.parse(result)
         categories.forEach((category) => {
           choices.push(
-            category.alias
+            category.title
           )
         })
         return inquirer.prompt([{
@@ -103,7 +103,7 @@ function list() {
 		let categories = JSON.parse(result)
 		categories.forEach((category) => {
 			choices.push(
-				category.alias
+				category.title
 			)
 		})
 		inquirer.prompt([{
