@@ -70,6 +70,8 @@ const flags = yargs.usage('$0: Usage <cmd> [options]')
          * (b) internationally­ formatted with a leading + sign and digits
          * only after (+35316703080).
          *
+         * Maximum length is 32.
+         *
          * */
       }),
     handler: (argv) => {
