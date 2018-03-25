@@ -81,6 +81,8 @@ function reviews(businesses, answer) {
   console.log(`Location: ${business.location}`);
   if (business.price !== undefined) {
     console.log(`Price: ${business.price}\n`);
+  } else {
+    console.log();
   }
   console.log('Reviews:');
   yelp.reviews(business.id).then((result) => {
@@ -90,7 +92,7 @@ function reviews(businesses, answer) {
       const temp = date[2].split(' ');
       const formattedDate = date[1] + '/' + temp[0] + '/' + date[0];
 
-      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formattedDate} `);
+      console.log(`Rated ${review.rating}/5 by ${review.user.name} on ${formattedDate}\n`);
       console.log(`${review.text}`);
       console.log('--------------------------------------------------');
     });
