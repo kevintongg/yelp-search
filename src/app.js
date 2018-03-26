@@ -52,7 +52,6 @@ function search(location, category, term, number, radius, open_now) {
         } else {
           const business = [];
           json.businesses.forEach((item) => {
-            // console.log(item)
             const distanceToMiles = Math.ceil(item.distance / 1609.34);
             business.push({
               id: `${item.id}`,
