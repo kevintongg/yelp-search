@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('../config');
 const rp = require('request-promise');
 
 function fetch(params, command) {
