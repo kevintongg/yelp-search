@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/kevintongg/yelp-search.git"
   },
-  "author": "Kevin Tong, Cedric Tong, Daniel Kale, Maurice Mejia",
+  "author": "Kevin Tong, Cedric Tong, Daniel Kale, Maurice Mejia, Christopher Ly",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/kevintongg/yelp-search/issues"
