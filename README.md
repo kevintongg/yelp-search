@@ -8,4 +8,13 @@ Uses the Yelp API to search for content
 
 Run `npm i` to install dependencies.
 
-Create your own `config.json` and include your API key and API endpoint `https://api.yelp.com/v3/businesses/search`.
+To use this application, create your own API key at `https://www.yelp.com/developers/` and create your own config.json inside `src/` like so:
+
+```json
+{
+	"api_key": "<your API key here>",
+	"url": "https://api.yelp.com/v3/businesses"
+}
+```
+
+Includes GPLv3 License.
