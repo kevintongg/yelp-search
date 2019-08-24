@@ -20,7 +20,7 @@
     "inquirer": "^6.5.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
-    "yargs": "^13.2.4"
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
